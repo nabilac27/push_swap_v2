@@ -5,43 +5,37 @@
 #                                                     +:+ +:+         +:+      #
 #    By: nchairun <nchairun@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/02/01 21:04:33 by nchairun          #+#    #+#              #
-#    Updated: 2025/03/08 09:07:56 by nchairun         ###   ########.fr        #
+#    Created: 2024/11/07 23:49:33 by nchairun          #+#    #+#              #
+#    Updated: 2025/02/08 15:07:29 by nchairun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		:= push_swap
+NAME	= libftprintf.a
+CC		= cc
+CFLAGS	= -Wall -Wextra -Werror
 
-LIBFT_DIR	:= ./include/lib
-LIBFT 		:= $(LIBFT_DIR)/libftprintf.a
+AR		= ar rcs
 
-SRCS		:= $(shell find ./src -iname "*.c")
-OBJS		:= $(SRCS:./src/%.c=./build/%.o)
-
-CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror
+SRCS	= $(shell find ./libft -iname "*.c") $(shell find ./ft_printf -iname "*.c")
+OBJS	= $(SRCS:./%.c=./build/%.o)
 
 .SILENT:
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	make -C $(LIBFT_DIR)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
+	$(AR) $(NAME) $^
 
-./build/%.o: ./src/%.c
+./build/%.o: ./%.c
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
-	rm -f $(LIBFT_DIR)/build/ft_printf/*.o
-	rm -f $(LIBFT_DIR)/build/libft/*.o
-    
+
 fclean: clean
 	rm -f $(NAME)
-	rm -f $(LIBFT)
-    
+
 re: fclean all
 
-.PHONY: all fclean clean re
+.PHONY: all clean fclean re

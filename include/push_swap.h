@@ -6,78 +6,84 @@
 /*   By: nchairun <nchairun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 21:02:30 by nchairun          #+#    #+#             */
-/*   Updated: 2025/03/03 22:03:46 by nchairun         ###   ########.fr       */
+/*   Updated: 2025/03/08 09:00:15 by nchairun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include "../lib/ft_printf/ft_printf.h"
-# include "../lib/libft/libft.h"
+# include "../include/lib/ft_printf/ft_printf.h"
+# include "../include/lib/libft/libft.h"
 # include <limits.h>
 # include <stdbool.h>
 # include <stdio.h>
+# include <stdlib.h>
 
-typedef struct s_stack_node
+typedef struct s_node
 {
-	int					num;
-	int					index;
-	int					push_moves;
-	// bool				above_median;
-	// bool				cheapest_moves;
-	struct s_stack_node	*next;
-	struct s_stack_node	*prev;
-	struct s_stack_node	*target;
-}						t_stack_node;
+	int				value;
+	int				index;
 
-/**** 			MAIN			 ****/
-// main.c
-char					**split_and_convert(char *input, int **numbers,
-							int *count);
-void					free_split(char **array);
+	bool			cheapest_move;
 
-// main_helper.c
-bool					validate_and_add_to_stack(char **argv_num,
-							t_stack_node **stack_a);
-bool					check_valid_num(const char *str);
-bool					check_duplicate(t_stack_node *stack, int num);
-void					add_node_to_stack(t_stack_node **stack, int num);
-int						count_stack_len(t_stack_node *stack);
+	struct s_node	*prev;
+	struct s_node	*next;
+}					t_stack;
 
-// fill_stack.c
-void					fill_stack(t_stack_node **stack_a, char **argv);
-long					ft_atol(char *str);
-bool					stack_sorted(t_stack_node *stack);
+/*	PARSING */
+// utils.c
+char				**check_valid_args(int argc, char *argv[]);
+char				**get_input_num(char **argv);
+int					count_stack_len(t_stack *stack);
+bool				sorted_stack(t_stack *stack);
+// long				ft_atol(char *str);
 
-// error_and_free.c
-void					error_message(t_stack_node **a);
-void					free_stack(t_stack_node **stack);
+// fill_stack_a.c
+void				fill_stack_a(t_stack **stack_a, char **num);
+bool				check_valid_num(char *str);
+bool				check_dup_num(t_stack *stack_a, int current_num);
+void				add_node_to_stack_a(t_stack **stack_a, int num);
 
-/**** 			OPERATION			 ****/
-// ps_push.c
-void					push(t_stack_node **dst, t_stack_node **src);
-void					pa(t_stack_node **stack_a, t_stack_node **stack_b);
-void					pb(t_stack_node **stack_b, t_stack_node **stack_a);
+// error_free_sort3.c
+void				free_stack(t_stack **stack);
+void				error_free_stack(t_stack **stack);
 
-// ps_rev_rotate.c
-void					rev_rotate(t_stack_node **stack);
-void					rra(t_stack_node **stack_a);
-void					rrb(t_stack_node **stack_b);
-void					rrr(t_stack_node **stack_a, t_stack_node **stack_b);
+/*	OPERATION */
+// push.c
+void				push(t_stack **dst, t_stack **src);
+void				pa(t_stack **stack_b, t_stack **stack_a);
+void				pb(t_stack **stack_a, t_stack **stack_b);
 
-// ps_rotate.c
-void					rotate(t_stack_node **node);
-void					ra(t_stack_node **stack_a);
-void					rb(t_stack_node **stack_b);
-void					rr(t_stack_node **stack_a, t_stack_node **stack_b);
+// swap.c
+void				swap(t_stack *stack);
+void				sa(t_stack *stack_a);
+void				sb(t_stack *stack_b);
+void				ss(t_stack *stack_a, t_stack *stack_b);
 
-// ps_swap.c
-void					swap(t_stack_node **node);
-void					sa(t_stack_node **stack_a);
-void					sb(t_stack_node **stack_b);
-void					ss(t_stack_node **stack_a, t_stack_node **stack_b);
+/*
+	OPERATIONS
+		push.c (push, pa, pb)
+		swap.c (swap. sa, sb)
+		rotate.c (rotate, ra, rb, rr)
+		rev_rotate.c (rev_rotate, rra, rrb, rrr)
 
-/****			TURK_ALGORITHM 			****/
+	PARSING
+		main.c
+		main_utils.c (error_message, free_stack, calc_stack_len, check_sorted,
+			sort_3)
+		handle_input.c (check_args, check_num, check_string)
+		init_stacks_stack_a.c (add_input_to_node, check_int_overflow-check_dup,
+			check_syntax-check_symbol, check_error, convert_to_long_int)
+
+	SORT_TURK
+		sort_utils.c (find_last_stack, find_min, find_max, find_cheapest,
+			check_above_median)
+		main_turk.c (main_turk)
+		push_to_stack_b.c (pb-pb, min-max, find_target, calc_cost, operations)
+		push_back_to_stack_a.c (min-max, pa, find_target, calc_cost,
+			median-operations)
+		final_sort_stack_a.c (find_min, check_above_median, operation)
+*/
 
 #endif
