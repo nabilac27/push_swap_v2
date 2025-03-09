@@ -6,7 +6,7 @@
 /*   By: nchairun <nchairun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 03:36:42 by nchairun          #+#    #+#             */
-/*   Updated: 2025/03/08 08:52:25 by nchairun         ###   ########.fr       */
+/*   Updated: 2025/03/09 02:22:33 by nchairun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ void	fill_stack_a(t_stack **stack_a, char **num)
 		if (!check_dup_num(*stack_a, (int)long_num))
 			error_free_stack(stack_a);
 		add_node_to_stack_a(stack_a, (int)long_num);
+		i++;
+	}
+	i = 0;
+	while (num[i])
+	{
+		free(num[i]);
 		i++;
 	}
 }

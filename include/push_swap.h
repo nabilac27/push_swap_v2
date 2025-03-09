@@ -6,7 +6,7 @@
 /*   By: nchairun <nchairun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 21:02:30 by nchairun          #+#    #+#             */
-/*   Updated: 2025/03/08 09:00:15 by nchairun         ###   ########.fr       */
+/*   Updated: 2025/03/09 23:45:45 by nchairun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,27 @@ typedef struct s_node
 	int				value;
 	int				index;
 
+	int				move_cost;
+	bool			median;
 	bool			cheapest_move;
 
 	struct s_node	*prev;
 	struct s_node	*next;
+	struct s_node	*target;
 }					t_stack;
 
-/*	PARSING */
-// utils.c
+typedef enum e_value
+{
+	FIND_MIN_VALUE,
+	FIND_MAX_VALUE
+}					t_value;
+
+/* **********	PARSING ********** */
+// main_utils.c
 char				**check_valid_args(int argc, char *argv[]);
 char				**get_input_num(char **argv);
+bool				check_sorted_stack(t_stack *stack);
 int					count_stack_len(t_stack *stack);
-bool				sorted_stack(t_stack *stack);
-// long				ft_atol(char *str);
 
 // fill_stack_a.c
 void				fill_stack_a(t_stack **stack_a, char **num);
@@ -45,21 +53,49 @@ bool				check_valid_num(char *str);
 bool				check_dup_num(t_stack *stack_a, int current_num);
 void				add_node_to_stack_a(t_stack **stack_a, int num);
 
-// error_free_sort3.c
+// utils.c
+void				sort_3(t_stack **stack_a);
+t_stack				*find_value(t_stack *stack, t_value value_type);
 void				free_stack(t_stack **stack);
 void				error_free_stack(t_stack **stack);
 
-/*	OPERATION */
+/* ********** TURK ********** */
+// turk.c
+void				turk_algorithm(t_stack **stack_a, t_stack **stack_b);
+
+// fill_stack_b.c
+void				calc_moves_fill_stack_b(t_stack *stack_a, t_stack *stack_b);
+
+// utils.c
+void				get_index(t_stack *stack);
+void				get_target_stack_b(t_stack *stack_a, t_stack *stack_b);
+void				calc_cost(t_stack *stack_a, t_stack *stack_b);
+void				get_cheapest(t_stack *stack_a);
+
+/* ********** OPERATION ********** */
 // push.c
 void				push(t_stack **dst, t_stack **src);
-void				pa(t_stack **stack_b, t_stack **stack_a);
-void				pb(t_stack **stack_a, t_stack **stack_b);
+void				pa(t_stack **stack_a, t_stack **stack_b);
+void				pb(t_stack **stack_b, t_stack **stack_a);
 
 // swap.c
 void				swap(t_stack *stack);
 void				sa(t_stack *stack_a);
 void				sb(t_stack *stack_b);
 void				ss(t_stack *stack_a, t_stack *stack_b);
+
+// rotate.c
+void				rotate(t_stack **stack);
+void				ra(t_stack **stack_a);
+void				rb(t_stack **stack_b);
+void				rr(t_stack **a, t_stack **b);
+t_stack				*get_current_end(t_stack *stack);
+
+// rev_rotate.c
+void				rev_rotate(t_stack **stack);
+void				rra(t_stack **stack_a);
+void				rrb(t_stack **stack_b);
+void				rrr(t_stack **a, t_stack **b);
 
 /*
 	OPERATIONS

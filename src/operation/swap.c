@@ -6,7 +6,7 @@
 /*   By: nchairun <nchairun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 07:08:11 by nchairun          #+#    #+#             */
-/*   Updated: 2025/03/08 08:57:45 by nchairun         ###   ########.fr       */
+/*   Updated: 2025/03/09 02:14:43 by nchairun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	swap(t_stack *stack)
 	temp_value = stack->value;
 	stack->value = stack->next->value;
 	stack->next->value = temp_value;
-	
 	temp_value = stack->index;
 	stack->index = stack->next->index;
 	stack->next->index = temp_value;

@@ -1,37 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push.c                                             :+:      :+:    :+:   */
+/*   rev_rotate.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nchairun <nchairun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/08 08:04:38 by nchairun          #+#    #+#             */
-/*   Updated: 2025/03/09 01:52:48 by nchairun         ###   ########.fr       */
+/*   Created: 2025/03/09 00:47:24 by nchairun          #+#    #+#             */
+/*   Updated: 2025/03/09 23:21:56 by nchairun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/push_swap.h"
 
-void	push(t_stack **dst, t_stack **src)
+void	rev_rotate(t_stack **stack)
 {
-	t_stack	*temp;
+	t_stack	*new_start;
 
-	if (*src == NULL)
-		return ;
-	temp = (*src)->next;
-	(*src)->next = *dst;
-	*dst = *src;
-	*src = temp;
+	new_start = get_current_end(*stack);
+	new_start->prev->next = NULL;
+	new_start->prev = NULL;
+	new_start->next = *stack;
+	(*stack)->prev = new_start;
+	*stack = new_start;
 }
 
-void	pa(t_stack **stack_a, t_stack **stack_b)
+void	rra(t_stack **stack_a)
 {
-	push(stack_a, stack_b);
-	write(1, "pa\n", 3);
+	rotate(stack_a);
+	write(1, "ra\n", 3);
 }
 
-void	pb(t_stack **stack_b, t_stack **stack_a)
+void	rrb(t_stack **stack_b)
 {
-	push(stack_b, stack_a);
-	write(1, "pb\n", 3);
+	rotate(stack_b);
+	write(1, "rb\n", 3);
+}
+
+void	rrr(t_stack **a, t_stack **b)
+{
+	rev_rotate(a);
+	rev_rotate(b);
+	write(1, "rrr\n", 4);
 }
